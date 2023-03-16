@@ -70,7 +70,7 @@ void infixToPostfix(char inputString[], char outputString[])
     int i, j;
     for (i = 0, j = 0; i < strlen(inputString); i++)
     {
-        char token = inputString[i];
+        token = inputString[i];
 
         if (isalnum(token))
         {
@@ -86,7 +86,6 @@ void infixToPostfix(char inputString[], char outputString[])
             {
                 outputString[j++] = pop();
             }
-            // Pop the '(' character from the stack
             pop();
         }
         else
@@ -110,7 +109,7 @@ int main()
     char inputString[MAX_SIZE];
     char outputString[MAX_SIZE];
 
-    printf("Enter a string: ");
+    printf("enter a equation: ");
     fgets(inputString, MAX_SIZE, stdin);
 
     removeSpaces(inputString);
