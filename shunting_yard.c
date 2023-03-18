@@ -1,33 +1,42 @@
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
+#include <stdbool.h>
 #include <ctype.h>
 
 #define MAX_SIZE 256
 
-char charStack[MAX_SIZE];
-int count = 0;
+char stack[MAX_SIZE];
+int top = 0;
+
+bool isFull()
+{
+    return top == MAX_SIZE;
+}
+
+bool isEmpty()
+{
+    return top == -1;
+}
 
 void push(char x)
 {
-    if (count == MAX_SIZE)
+    if (isFull())
     {
-        printf("there is not space left in the char stack\n");
+        printf("there is not space left in the stack\n");
         exit(1);
     }
-    charStack[count] = x;
-    count++;
+    stack[top++] = x;
 }
 
 char pop()
 {
-    if (count == 0)
+    if (isEmpty())
     {
-        fprintf(stderr, "nothing to take from the char stack\n");
+        printf("nother to take from the stack\n");
         exit(1);
     }
-    char result = charStack[count - 1];
-    count--;
+    char result = stack[--top];
     return result;
 }
 
@@ -82,7 +91,7 @@ void infixToPostfix(char inputString[], char outputString[])
         }
         else if (token == ')')
         {
-            while (charStack[count - 1] != '(')
+            while (stack[top - 1] != '(')
             {
                 outputString[j++] = pop();
             }
@@ -90,14 +99,14 @@ void infixToPostfix(char inputString[], char outputString[])
         }
         else
         {
-            while (count != 0 && precedence(token) <= precedence(charStack[count - 1]))
+            while (top != 0 && precedence(token) <= precedence(stack[top - 1]))
             {
                 outputString[j++] = pop();
             }
             push(token);
         }
     }
-    while (count != 0)
+    while (top != 0)
     {
         outputString[j++] = pop();
     }
