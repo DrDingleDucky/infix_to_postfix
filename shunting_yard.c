@@ -118,7 +118,7 @@ int main()
     char inputString[MAX_SIZE];
     char outputString[MAX_SIZE];
 
-    printf("enter a equation: ");
+    printf("enter a expression: ");
     fgets(inputString, MAX_SIZE, stdin);
 
     removeSpaces(inputString);
