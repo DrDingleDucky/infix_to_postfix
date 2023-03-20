@@ -33,7 +33,7 @@ char pop()
 {
     if (isEmpty())
     {
-        printf("nother to take from the stack\n");
+        printf("nothing to take from the stack\n");
         exit(1);
     }
     char result = stack[--top];
@@ -56,21 +56,13 @@ void removeSpaces(char string[])
 int precedence(char operator)
 {
     if (operator== '+' || operator== '-')
-    {
         return 1;
-    }
     else if (operator== '*' || operator== '/')
-    {
         return 2;
-    }
     else if (operator== '^')
-    {
         return 3;
-    }
     else
-    {
         return 0;
-    }
 }
 
 void infixToPostfix(char inputString[], char outputString[])
