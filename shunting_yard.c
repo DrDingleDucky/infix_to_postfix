@@ -1,38 +1,28 @@
-#include <stdio.h>
-#include <string.h>
-#include <stdlib.h>
-#include <stdbool.h>
 #include <ctype.h>
+#include <stdbool.h>
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
 
 #define MAX_SIZE 256
 
 char stack[MAX_SIZE];
 int top = 0;
 
-bool isFull()
-{
-    return top == MAX_SIZE;
-}
+bool isFull() { return top == MAX_SIZE; }
 
-bool isEmpty()
-{
-    return top == -1;
-}
+bool isEmpty() { return top == -1; }
 
-void push(char x)
-{
-    if (isFull())
-    {
+void push(char x) {
+    if (isFull()) {
         printf("there is not space left in the stack\n");
         exit(1);
     }
     stack[top++] = x;
 }
 
-char pop()
-{
-    if (isEmpty())
-    {
+char pop() {
+    if (isEmpty()) {
         printf("nothing to take from the stack\n");
         exit(1);
     }
@@ -40,35 +30,28 @@ char pop()
     return result;
 }
 
-struct Node
-{
+struct Node {
     char *data;
     struct Node *next;
 };
 
-void addNode(struct Node **head, char *newData)
-{
+void addNode(struct Node **head, char *newData) {
     struct Node *newNode = (struct Node *)malloc(sizeof(struct Node));
     newNode->data = strdup(newData);
     newNode->next = NULL;
 
-    if (*head == NULL)
-    {
+    if (*head == NULL) {
         *head = newNode;
-    }
-    else
-    {
+    } else {
         struct Node *current = *head;
-        while (current->next != NULL)
-        {
+        while (current->next != NULL) {
             current = current->next;
         }
         current->next = newNode;
     }
 }
 
-int precedence(char operator)
-{
+int precedence(char operator) {
     if (operator== '+' || operator== '-')
         return 1;
     else if (operator== '*' || operator== '/')
@@ -79,38 +62,28 @@ int precedence(char operator)
         return 0;
 }
 
-void infixToPostfix(struct Node *head, char string[])
-{
+void infixToPostfix(struct Node *head, char string[]) {
     struct Node *current = head;
     int i = 0;
 
-    while (current != NULL)
-    {
-        if (isalnum(*current->data))
-        {
-            for (int j = 0; j < strlen(current->data); j++)
-            {
+    while (current != NULL) {
+        if (isalnum(*current->data) ||
+            current->data[0] == '-' && strlen(current->data) != 1) {
+            for (int j = 0; j < strlen(current->data); j++) {
                 string[i++] = current->data[j];
             }
             string[i++] = ' ';
-        }
-        else if (*current->data == '(')
-        {
+        } else if (*current->data == '(') {
             push(*current->data);
-        }
-        else if (*current->data == ')')
-        {
-            while (stack[top - 1] != '(')
-            {
+        } else if (*current->data == ')') {
+            while (stack[top - 1] != '(') {
                 string[i++] = pop();
                 string[i++] = ' ';
             }
             pop();
-        }
-        else
-        {
-            while (top != 0 && precedence(*current->data) <= precedence(stack[top - 1]))
-            {
+        } else {
+            while (top != 0 &&
+                   precedence(*current->data) <= precedence(stack[top - 1])) {
                 string[i++] = pop();
                 string[i++] = ' ';
             }
@@ -118,20 +91,18 @@ void infixToPostfix(struct Node *head, char string[])
         }
         current = current->next;
     }
-    while (top != 0)
-    {
+    while (top != 0) {
         string[i++] = pop();
         string[i++] = ' ';
     }
     string[i] = '\0';
 }
 
-int main()
-{
+int main() {
     struct Node *head = NULL;
     char input[MAX_SIZE];
     char output[MAX_SIZE];
-    
+
     char tempString[16];
 
     printf("enter infix expression: ");
@@ -139,16 +110,12 @@ int main()
 
     int i = 0;
     int j = 0;
-    while (input[i] != '\0')
-    {
-        if (isspace(input[i]))
-        {
+    while (input[i] != '\0') {
+        if (isspace(input[i])) {
             tempString[j++] = '\0';
             addNode(&head, tempString);
             j = 0;
-        }
-        else
-        {
+        } else {
             tempString[j++] = input[i];
         }
         i++;
