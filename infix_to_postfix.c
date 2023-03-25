@@ -105,7 +105,7 @@ int main() {
 
     char tempString[16];
 
-    printf("enter infix expression: ");
+    printf("input: ");
     fgets(input, MAX_SIZE, stdin);
 
     int i = 0;
