@@ -79,19 +79,13 @@ int precedence(char operator)
         return 0;
 }
 
-char infixToPostfix(struct Node *head, char string[])
+void infixToPostfix(struct Node *head, char string[])
 {
     struct Node *current = head;
     int i = 0;
-    while (string[i] != '\n')
-    {
-        printf("yes: %s\n", string[i]);
-    }
 
-    int i = 0;
     while (current != NULL)
     {
-        printf("%s\n", current->data);
         if (isalnum(*current->data))
         {
             for (int j = 0; j < strlen(current->data); j++)
@@ -129,18 +123,39 @@ char infixToPostfix(struct Node *head, char string[])
         string[i++] = pop();
         string[i++] = ' ';
     }
-    string[--i] = '\0';
-    return *string;
+    string[i] = '\0';
 }
 
 int main()
 {
     struct Node *head = NULL;
-    char inputString[] = "12 + 34";
-    char outputString[MAX_SIZE];
+    char input[MAX_SIZE];
+    char output[MAX_SIZE];
+    
+    char tempString[16];
 
-    outputString = infixToPostfix(head, inputString);
+    printf("enter infix expression: ");
+    fgets(input, MAX_SIZE, stdin);
 
-    printf("output: %s\n", outputString);
+    int i = 0;
+    int j = 0;
+    while (input[i] != '\0')
+    {
+        if (isspace(input[i]))
+        {
+            tempString[j++] = '\0';
+            addNode(&head, tempString);
+            j = 0;
+        }
+        else
+        {
+            tempString[j++] = input[i];
+        }
+        i++;
+    }
+
+    infixToPostfix(head, output);
+
+    printf("output: %s\n", output);
     return 0;
 }
