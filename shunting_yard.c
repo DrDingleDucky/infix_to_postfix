@@ -40,17 +40,31 @@ char pop()
     return result;
 }
 
-void removeSpaces(char string[])
+struct Node
 {
-    int i, j;
-    for (i = 0, j = 0; i < strlen(string); i++)
+    char *data;
+    struct Node *next;
+};
+
+void addNode(struct Node **head, char *newData)
+{
+    struct Node *newNode = (struct Node *)malloc(sizeof(struct Node));
+    newNode->data = strdup(newData);
+    newNode->next = NULL;
+
+    if (*head == NULL)
     {
-        if (string[i] != ' ')
-        {
-            string[j++] = string[i];
-        }
+        *head = newNode;
     }
-    string[j] = '\0';
+    else
+    {
+        struct Node *current = *head;
+        while (current->next != NULL)
+        {
+            current = current->next;
+        }
+        current->next = newNode;
+    }
 }
 
 int precedence(char operator)
@@ -65,60 +79,68 @@ int precedence(char operator)
         return 0;
 }
 
-void infixToPostfix(char inputString[], char outputString[])
+char infixToPostfix(struct Node *head, char string[])
 {
-    char token;
-    int i, j;
-    for (i = 0, j = 0; i < strlen(inputString); i++)
+    struct Node *current = head;
+    int i = 0;
+    while (string[i] != '\n')
     {
-        token = inputString[i];
+        printf("yes: %s\n", string[i]);
+    }
 
-        if (isalnum(token))
+    int i = 0;
+    while (current != NULL)
+    {
+        printf("%s\n", current->data);
+        if (isalnum(*current->data))
         {
-            outputString[j++] = token;
+            for (int j = 0; j < strlen(current->data); j++)
+            {
+                string[i++] = current->data[j];
+            }
+            string[i++] = ' ';
         }
-        else if (token == '(')
+        else if (*current->data == '(')
         {
-            push(token);
+            push(*current->data);
         }
-        else if (token == ')')
+        else if (*current->data == ')')
         {
             while (stack[top - 1] != '(')
             {
-                outputString[j++] = pop();
+                string[i++] = pop();
+                string[i++] = ' ';
             }
             pop();
         }
         else
         {
-            while (top != 0 && precedence(token) <= precedence(stack[top - 1]))
+            while (top != 0 && precedence(*current->data) <= precedence(stack[top - 1]))
             {
-                outputString[j++] = pop();
+                string[i++] = pop();
+                string[i++] = ' ';
             }
-            push(token);
+            push(*current->data);
         }
+        current = current->next;
     }
     while (top != 0)
     {
-        outputString[j++] = pop();
+        string[i++] = pop();
+        string[i++] = ' ';
     }
-    outputString[j] = '\0';
+    string[--i] = '\0';
+    return *string;
 }
 
 int main()
 {
-    char inputString[MAX_SIZE];
+    struct Node *head = NULL;
+    char inputString[] = "12 + 34";
     char outputString[MAX_SIZE];
 
-    printf("enter a expression: ");
-    fgets(inputString, MAX_SIZE, stdin);
+    outputString = infixToPostfix(head, inputString);
 
-    removeSpaces(inputString);
-
-    printf("input: %s", inputString);
-
-    infixToPostfix(inputString, outputString);
-
-    printf("output: %s", outputString);
+    printf("output: %s\n", outputString);
     return 0;
 }
