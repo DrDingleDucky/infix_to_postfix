@@ -65,7 +65,6 @@ int precedence(char operator) {
 void infixToPostfix(struct Node *head, char string[]) {
   struct Node *current = head;
   int i = 0;
-
   while (current != NULL) {
     if (isalnum(*current->data) ||
         current->data[0] == '-' && strlen(current->data) != 1) {
@@ -102,7 +101,6 @@ int main() {
   struct Node *head = NULL;
   char input[MAX_SIZE];
   char output[MAX_SIZE];
-
   char tempString[16];
 
   printf("input: ");

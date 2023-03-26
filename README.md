@@ -5,15 +5,18 @@ Convert infix notation to postfix notation with the shunting yard algorithm.
 ## Example
 
 ```text
-input: 1 + 2
-output: 1 2 +
+input: 10 + 5
+output: 10 5 +
 
-input: 34 * 56 - 7
-output: 34 56 * 7 -
+input: 4 * -5
+output: 4 -5 *
 
-input: 12 * ( 9 - 1 ) / 4
-output: 12 9 1 - * 4 /
+input: 25 - 3 * 10 / 2
+output: 25 3 10 * 2 / -
 
-input: 10 + 15 * ( 100 - -40 / 10 ) * 2
-output: 10 15 100 -40 10 / - * 2 * +
+input: 16 - 2 * ( 3 * 18 / 2 )
+output: 16 2 3 18 * 2 / * -
+
+input: ( 6 + -9 - -2 ) * ( 4 + 3 - 11 )
+output: 6 -9 + -2 - 4 3 + 11 - *
 ```
