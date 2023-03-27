@@ -29,20 +29,21 @@ char pop() {
   return stack[top--];
 }
 
-struct Node {
+typedef struct node {
   char *data;
-  struct Node *next;
-};
+  struct node *next;
+} node;
 
-void addNode(struct Node **head, char *newData) {
-  struct Node *newNode = (struct Node *)malloc(sizeof(struct Node));
-  newNode->data = strdup(newData);
+void addNode(node **head, char *data) {
+  node *newNode = malloc(sizeof(node));
+  newNode->data = malloc(strlen(data));
+  strcpy(newNode->data, data);
   newNode->next = NULL;
 
   if (*head == NULL) {
     *head = newNode;
   } else {
-    struct Node *current = *head;
+    node *current = *head;
     while (current->next != NULL) {
       current = current->next;
     }
@@ -59,7 +60,7 @@ int precedence(char operator) {
     return 0;
 }
 
-void infixToPostfix(struct Node *head, char string[]) {
+void infixToPostfix(node *head, char string[]) {
   int i = 0;
   while (head != NULL) {
     if (isalnum(*head->data) ||
@@ -93,7 +94,7 @@ void infixToPostfix(struct Node *head, char string[]) {
 }
 
 int main() {
-  struct Node *head = NULL;
+  node *head = NULL;
   char input[MAX_SIZE];
   char output[MAX_SIZE];
   char tempString[MAX_SIZE];
