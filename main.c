@@ -63,8 +63,7 @@ int precedence(char operator) {
 void infixToPostfix(node *head, char string[]) {
     int i = 0;
     while (head != NULL) {
-        if (isalnum(*head->data) ||
-            (*head->data == '-' && strlen(head->data) > 1)) {
+        if (isalnum(*head->data) || (*head->data == '-' && strlen(head->data) > 1)) {
             for (int j = 0; j < strlen(head->data); j++) {
                 string[i++] = head->data[j];
             }
