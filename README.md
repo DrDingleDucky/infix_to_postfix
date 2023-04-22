@@ -2,7 +2,7 @@
 
 Convert infix notation to postfix notation with the shunting yard algorithm.
 
-## Example
+## Examples
 
 ```text
 input: 10 + 5
