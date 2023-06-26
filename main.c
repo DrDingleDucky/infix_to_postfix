@@ -79,17 +79,17 @@ int precedence(char operator)
 
 void infixToPostfix(node *head, char string[])
 {
-    int i = 0;
+    int index1 = 0;
     while (head != NULL)
     {
         if (isalnum(*head->data) || (*head->data == '-' &&
                                      strlen(head->data) > 1))
         {
-            for (int j = 0; j < strlen(head->data); j++)
+            for (int index2 = 0; index2 < strlen(head->data); index2++)
             {
-                string[i++] = head->data[j];
+                string[index1++] = head->data[index2];
             }
-            string[i++] = ' ';
+            string[index1++] = ' ';
         }
         else if (*head->data == '(')
         {
@@ -99,8 +99,8 @@ void infixToPostfix(node *head, char string[])
         {
             while (stack[top] != '(')
             {
-                string[i++] = pop();
-                string[i++] = ' ';
+                string[index1++] = pop();
+                string[index1++] = ' ';
             }
             pop();
         }
@@ -109,8 +109,8 @@ void infixToPostfix(node *head, char string[])
             while (!isEmpty() && precedence(*head->data) <=
                                      precedence(stack[top]))
             {
-                string[i++] = pop();
-                string[i++] = ' ';
+                string[index1++] = pop();
+                string[index1++] = ' ';
             }
             push(*head->data);
         }
@@ -118,10 +118,10 @@ void infixToPostfix(node *head, char string[])
     }
     while (!isEmpty())
     {
-        string[i++] = pop();
-        string[i++] = ' ';
+        string[index1++] = pop();
+        string[index1++] = ' ';
     }
-    string[i] = '\0';
+    string[index1] = '\0';
 }
 
 int main()
@@ -134,21 +134,21 @@ int main()
     printf("Input: ");
     fgets(input, MAX_SIZE, stdin);
 
-    int i = 0;
-    int j = 0;
-    while (input[i] != '\0')
+    int index1 = 0;
+    int index2 = 0;
+    while (input[index1] != '\0')
     {
-        if (isspace(input[i]))
+        if (isspace(input[index1]))
         {
-            tempString[j++] = '\0';
+            tempString[index2++] = '\0';
             addNode(&head, tempString);
-            j = 0;
+            index2 = 0;
         }
         else
         {
-            tempString[j++] = input[i];
+            tempString[index2++] = input[index1];
         }
-        i++;
+        index1++;
     }
 
     infixToPostfix(head, output);
